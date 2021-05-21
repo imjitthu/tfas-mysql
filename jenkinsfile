@@ -9,8 +9,9 @@ pipeline { //pipeline
             withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awskey', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     git 'https://github.com/imjitthu/tfas-mysql.git'
                     //sh 'terraform destroy -auto-approve'
-                    sh'terraform init'
-                    sh 'terraform apply -auto-approve'
+                    sh 'terraform init'
+                    sh 'terraform plan'
+                    //sh 'terraform apply -auto-approve'
                     } //with credentials
             ansiblePlaybook credentialsId: 'DevOps321', installation: 'ansibletool', inventory: 'mysql_inv', playbook: 'mysql.yml'
                 } //mysql steps
