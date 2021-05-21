@@ -1,0 +1,10 @@
+- name: Setup mysql RoboShop Project
+  hosts: all
+  vars:
+    DOMAIN: jithendar.com
+  become: yes
+  
+  tasks:
+    - name: Load mysql Role
+      import_role:
+        name: mysql
