@@ -1,0 +1,42 @@
+- name: Copy MySQL repo file
+  template:
+    src: mysql.repo
+    dest: /etc/yum.repos.d/mysql.repo
+
+- name: Remove MariaDB Libs
+  yum:
+    name: mariadb-libs
+    state: absent
+
+- name: Install MySQL
+  yum:
+    name: mysql-community-server
+    state: present
+
+- name: Start MySQL
+  systemd:
+    name: mysqld
+    state: started
+    enabled: yes
+
+- name: Check the MySQL Connectivity Using Standard Password
+  shell: echo "show databases;" | mysql -u root -p'{{MYSQL_PASS}}'
+  register: out
+  ignore_errors: yes
+
+- name: Grab the default root password
+  shell: grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}'
+  register: DEFAULT_PASS
+  when: out.rc != 0
+
+- name: Set the new Password
+  shell: echo -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '{{MYSQL_PASS}}';\nuninstall plugin validate_password;" | mysql --connect-expired-password -u root -p'{{DEFAULT_PASS.stdout}}'
+  when: out.rc != 0
+
+- name: Download and Unarchive {{COMPONENT}} on remote machine
+  unarchive:
+    src: shipping.zip
+    dest: /tmp
+
+- name: Load Schema
+  shell: mysql -u root -p'{{MYSQL_PASS}}' </tmp/shipping.sql
