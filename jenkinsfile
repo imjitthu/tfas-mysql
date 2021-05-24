@@ -5,25 +5,30 @@ pipeline {
 
     parameters {
     choice(name: 'tfaction', choices: ['init', 'plan', 'apply -auto-approve', 'destroy -auto-approve'], description: 'Pick any action')
-    }
+               }
 
     environment {
         tfaction = "terraform ${params.tfaction}"
+        invfile  = "mysql_inv"
+        playbook = "mysql.yml"
                 }
 
     stages ('Setup Roboshop Application') { 
-        stage ('Installing mysql Server') { 
+        stage ('Installing shipping Server') { 
             steps { 
             withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awskey', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh "${env.tfaction}"
                     }
-            if (params.tfaction == "apply -auto-approve") {
-                ansiblePlaybook credentialsId: 'DevOps321', installation: 'ansibletool', inventory: 'mysql_inv', playbook: 'mysql.yml'    
-            } 
-            else {
-                echo "terraform action is: ${env.tfaction}"
+            script {
+                if (params.tfaction == "apply -auto-approve") {
+                    ansiblePlaybook credentialsId: 'DevOps321', installation: 'ansibletool', inventory: "${env.invfile}", playbook: "${env.invfile}"
+
                 }
+                else {
+                    echo "terraform action is: ${env.tfaction}"
+                    }
+                    } 
                 } 
             } 
         } 
-    }
+    } 
