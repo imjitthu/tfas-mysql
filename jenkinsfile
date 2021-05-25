@@ -19,15 +19,15 @@ pipeline {
             withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'awskey', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh "${env.tfaction}"
                     }
-            script {
-                if (params.tfaction == "apply -auto-approve") {
-                    ansiblePlaybook credentialsId: 'DevOps321', installation: 'ansibletool', inventory: "${env.invfile}", playbook: "${env.playbook}"
+            // script {
+            //     if (params.tfaction == "apply -auto-approve") {
+            //         ansiblePlaybook credentialsId: 'DevOps321', installation: 'ansibletool', inventory: "${env.invfile}", playbook: "${env.playbook}"
 
-                }
-                else {
-                    echo "terraform action is: ${env.tfaction}"
-                    }
-                    } 
+            //     }
+            //     else {
+            //         echo "terraform action is: ${env.tfaction}"
+            //         }
+            //         } 
                 } 
             } 
         } 

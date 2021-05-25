@@ -68,7 +68,7 @@ resource "null_resource" "import-mysql-schema" {
     rm -rf rs-mysql
     git clone https://github.com/imjitthu/rs-mysql.git
     cd rs-mysql
-    mysql -h ${aws_rds_cluster.mysql.endpoint} -u${jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["MYSQL_USER"]} -p${jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["MYSQL_PASS"]} <shipping.sql
+    mysql -h ${aws_rds_cluster.mysql.endpoint} -u${jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["SSH_USER"]} -p${jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["SSH_PASS"]} <shipping.sql
   EOF
   }
 }
