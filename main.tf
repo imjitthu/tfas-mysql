@@ -83,7 +83,7 @@ resource "aws_route53_record" "mysql" {
   type          = "CNAME"
   ttl           = "300"
   #zone_id       = "${var.R53_ZONE_ID}"
-  zone_id       = aws_route53_record.mysql.zone_id 
+  zone_id       = [aws_route53_record.mysql.zone_id]
   #zone_id       = data.terraform_remote_state.vpc.outputs.ZONE_ID
   records       = [aws_rds_cluster.mysql.endpoint]
 }
