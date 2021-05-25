@@ -4,7 +4,8 @@ pipeline {
     options { disableConcurrentBuilds() }
 
     parameters {
-    choice(name: 'tfaction', choices: ['init', 'plan', 'apply -auto-approve', 'destroy -auto-approve'], description: 'Pick any action')
+    //choice(name: 'tfaction', choices: ['init', 'plan', 'apply -auto-approve', 'destroy -auto-approve'], description: 'Pick any action')
+    text(name: 'tfaction', defaultValue: 'terraform init', description: 'Enter the terraform command')
                }
 
     environment {
