@@ -5,7 +5,7 @@ locals {
 
 resource "aws_instance" "mysql" {
   # aws_spot_instabce_request for spot instance
-  ami = "${var.AMI}"
+  ami = data.aws_ami.ami.id
   instance_type = "${var.INSTANCE_TYPE}"
   key_name = local.key_name
   # spot_type = "one-time"  aws_spot_instance_request
