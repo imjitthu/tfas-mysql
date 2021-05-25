@@ -19,7 +19,7 @@ data "aws_secretsmanager_secret_version" "creds" {
 data "aws_ami" "ami" {
   most_recent = true
   owners      = ["973714476881"]
-  # filters {
+  # filter {
   #   name = "image-d"
   #   values = ["ami-079a3f3cf00741286"]
   # } ami id will change all time so filtering on name

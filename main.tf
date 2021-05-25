@@ -74,7 +74,9 @@ resource "null_resource" "import-mysql-schema" {
 }
 
 data "aws_route53_zone" "jithendar" {
-  name         = "jithendar.com"
+  filter {
+      name = "name"
+    }
   private_zone = false
 }
 
