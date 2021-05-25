@@ -66,7 +66,7 @@ resource "null_resource" "mysql-schema" {
     command     = <<EOF
     sleep 600
     rm -rf rs-mysql
-    git clone https://github.com/SrimaanPenugonda/rs-mysql.git
+    git clone https://github.com/imjitthu/rs-mysql.git
     cd rs-mysql
     mysql -h ${aws_rds_cluster.mysql.endpoint} -u${jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["MYSQL_USER"]} -p${jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["MYSQL_PASS"]} <shipping.sql
   EOF
@@ -79,3 +79,4 @@ resource "aws_route53_record" "mysql" {
   ttl           = "1000"
   zone_id       = data.terraform_remote_state.vpc.outputs.ZONE_ID
   records       = [aws_rds_cluster.mysql.endpoint]
+}
