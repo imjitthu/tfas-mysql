@@ -16,9 +16,9 @@ resource "aws_instance" "mysql" {
  connection {
   host = aws_instance.mysql.public_ip
   type = "ssh"
-  user = var.USER
-  #private_key = file("${local.key_path}")
-  password = var.PASSWORD
+  #private_key = file("${local.key_path}") read private_key (PEM) from file
+  user = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["SSH_USER"]
+  password = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["SSH_PASS"]
 }
 
 provisioner "remote-exec" {
