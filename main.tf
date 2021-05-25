@@ -76,12 +76,6 @@ resource "aws_route53_record" "jithendar" {
   name          = "${var.COMPONENT}.${data.aws_route53_zone.jithendar.name}"
   type          = "CNAME"
   ttl           = "300"
-  zone_id       = "data.aws_route53_zone.jithendar.zone_id"
+  zone_id       = data.aws_route53_zone.jithendar.zone_id
   records       = [aws_rds_cluster.mysql.endpoint]
 }
-
-
-# data "aws_route53_zone" "jithendar" {
-#   name = "jithendar.com"
-#   private_zone = false
-# }
