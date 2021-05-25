@@ -78,7 +78,7 @@ data "aws_route53_zone" "jithendar" {
   private_zone = false
 }
 
-resource "aws_route53_record" "mysql" {
+resource "aws_route53_record" "jithendar" {
   name          = "${var.COMPONENT}.${var.DOMAIN}"
   type          = "CNAME"
   ttl           = "300"
