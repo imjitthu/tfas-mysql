@@ -79,7 +79,7 @@ data "aws_route53_zone" "jithendar" {
 }
 
 resource "aws_route53_record" "jithendar" {
-  name          = "${var.COMPONENT}.${var.DOMAIN}"
+  name          = "${var.COMPONENT}.${data.aws_route53_zone.jithendar.name}"
   type          = "CNAME"
   ttl           = "300"
   #zone_id       = "${var.R53_ZONE_ID}"
