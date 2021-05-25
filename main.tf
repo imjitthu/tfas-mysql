@@ -18,8 +18,8 @@ resource "aws_rds_cluster" "mysql" {
   engine_version                  = "5.7.mysql_aurora.2.03.2"
   #db_subnet_group_name            = aws_db_subnet_group.mysql.name
   database_name                   = "defaultdb"
-  master_username                 = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["MYSQL_USER"]
-  master_password                 = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["MYSQL_PASS"]
+  master_username                 = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["SSH_USER"]
+  master_password                 = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["SSH_PASS"]
   backup_retention_period         = 5
   preferred_backup_window         = "07:00-09:00"
   skip_final_snapshot             = true
