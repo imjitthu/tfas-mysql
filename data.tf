@@ -12,7 +12,7 @@ data "aws_secretsmanager_secret" "creds" {
 }
 
 data "aws_secretsmanager_secret_version" "creds" {
-  secret_id = data.aws_secretmanager_secret.cred.id
+  secret_id = data.aws_secretsmanager_secret.cred.id
 }
 
 #Get the latest AMI from AWS with OWNER ID and Name Filter
