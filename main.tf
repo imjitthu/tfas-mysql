@@ -29,7 +29,7 @@ resource "aws_rds_cluster" "mysql" {
 
 resource "aws_rds_cluster_instance" "cluster_instances" {
   count              = 1
-  identifier         = "mysql-roboshop-${count.index}"
+  identifier         = "mysql-roboshop-${count.index +1}"
   cluster_identifier = aws_rds_cluster.mysql.id
   instance_class     = "db.t3.small"
   engine             = aws_rds_cluster.mysql.engine
