@@ -21,7 +21,7 @@ pipeline {
                     sh "${env.tfaction}"
                     }
             // script {
-            //     if (params.tfaction == "apply -auto-approve") {
+            //     if (env.tfaction.contains('apply')) {
             //         ansiblePlaybook credentialsId: 'DevOps321', installation: 'ansibletool', inventory: "${env.invfile}", playbook: "${env.playbook}"
 
             //     }
