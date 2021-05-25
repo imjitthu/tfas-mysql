@@ -7,11 +7,11 @@ terraform {
 }
 
 #get the SSH credentials from AWS Secret Manager
-data "aws_secretmanager_secret" "creds" {
+data "aws_secretsmanager_secret" "creds" {
   name = "SSH_ROOT"
 }
 
-data "aws_secretmanager_secret_version" "creds" {
+data "aws_secretsmanager_secret_version" "creds" {
   secret_id = data.aws_secretmanager_secret.cred.id
 }
 
