@@ -73,11 +73,6 @@ resource "null_resource" "import-mysql-schema" {
   }
 }
 
-data "aws_route53_zone" "jithendar" {
-  name = "jithendar.com"
-  private_zone = false
-}
-
 resource "aws_route53_record" "jithendar" {
   name          = "${var.COMPONENT}.${data.aws_route53_zone.jithendar.name}"
   type          = "CNAME"
