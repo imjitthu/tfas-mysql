@@ -79,3 +79,9 @@ resource "aws_route53_record" "jithendar" {
   zone_id       = "data.aws_route53_zone.jithendar.zone_id"
   records       = [aws_rds_cluster.mysql.endpoint]
 }
+
+
+data "aws_route53_zone" "jithendar" {
+  name = "jithendar.com"
+  private_zone = false
+}
