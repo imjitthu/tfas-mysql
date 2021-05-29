@@ -1,22 +1,13 @@
-# resource "aws_db_subnet_group" "mysql" {
-#   name       = "mysql"
-#   subnet_ids = data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNETS
-#   tags       = {
-#     name     = "Mysql DB subnet grp"
-#   }
-# }
-
 resource "aws_rds_cluster_parameter_group" "mysql" {
-  name   = "mysql-cluster-parameter-group-roboshop"
+  name   = "mysql-cluster-parameter-group-${var.env}-roboshop"
   family = "aurora-mysql5.7"
   description = "RDS default cluster parameter group"
 }
 
 resource "aws_rds_cluster" "mysql" {
-  cluster_identifier              = "mysql-cluster-roboshop"
+  cluster_identifier              = "mysql-cluster-${var.env}-roboshop"
   engine                          = "aurora-mysql"
   engine_version                  = "5.7.mysql_aurora.2.03.2"
-  #db_subnet_group_name            = aws_db_subnet_group.mysql.name
   database_name                   = "defaultdb"
   master_username                 = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["SSH_USER"]
   master_password                 = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["SSH_PASS"]
@@ -24,7 +15,6 @@ resource "aws_rds_cluster" "mysql" {
   preferred_backup_window         = "07:00-09:00"
   skip_final_snapshot             = true
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.mysql.name
-  #vpc_security_group_ids          = [aws_security_group.allow_mysql.id]
 }
 
 resource "aws_rds_cluster_instance" "cluster_instances" {
@@ -35,31 +25,6 @@ resource "aws_rds_cluster_instance" "cluster_instances" {
   engine             = aws_rds_cluster.mysql.engine
   engine_version     = aws_rds_cluster.mysql.engine_version
 }
-
-
-# resource "aws_security_group" "allow_mysql" {
-#   name          = "allow-mysql-${var.ENV}"
-#   description   = "allow-mysql-${var.ENV}"
-#   vpc_id        = data.terraform_remote_state.vpc.outputs.VPC_ID
-#   ingress {
-#     description = "SSH"
-#     from_port   = 3306
-#     to_port     = 3306
-#     protocol    = "tcp"
-#     cidr_blocks = [data.terraform_remote_state.vpc.outputs.VPC_CIDR,data.terraform_remote_state.vpc.outputs.DEFAULT_VPC_CIDR]
-#   }
-
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-
-#   tags          = {
-#     Name        = "allow-mysql-${var.ENV}"
-#   }
-# }
 
 resource "null_resource" "import-mysql-schema" {
   provisioner "local-exec" {
